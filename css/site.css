@@ -1,0 +1,252 @@
+/* =========================================================
+   站点样式（索引页 + 两个作品页）
+   配色与作品保持一致，共 5 色
+   ========================================================= */
+:root {
+  --ink:   #0E1B2A; /* 深墨蓝：底色与结构 */
+  --paper: #F3EDE3; /* 米白：文字与留白 */
+  --coral: #E4572E; /* 珊瑚橙：暖色重点 */
+  --blue:  #3D7EA6; /* 湖蓝：冷色块面 */
+  --sand:  #D8C3A5; /* 沙色：低饱和过渡 */
+  --font: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;             /* 关键：任何页面都不出现滚动条 */
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------- 索引页 ---------------- */
+.index-page {
+  display: flex;
+  align-items: center;
+}
+
+.index-main {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(20px, 5vh, 64px) clamp(20px, 6vw, 88px);
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.eyebrow {
+  margin: 0 0 clamp(8px, 1.6vh, 16px);
+  font-size: clamp(10px, 0.95vw, 12px);
+  letter-spacing: 0.24em;
+  color: var(--sand);
+}
+
+.index-header h1 {
+  margin: 0 0 clamp(8px, 1.8vh, 18px);
+  font-size: clamp(28px, 5vw, 58px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.slash {
+  color: var(--coral);
+  margin: 0 0.16em;
+  font-weight: 400;
+}
+
+.intro {
+  margin: 0 0 clamp(18px, 4vh, 44px);
+  max-width: 46ch;
+  font-size: clamp(12px, 1.05vw, 14px);
+  line-height: 1.8;
+  color: rgba(243, 237, 227, 0.6);
+}
+
+/* 两张作品卡片 */
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(12px, 1.8vw, 22px);
+}
+
+.work-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.2vh, 12px);
+  padding: clamp(16px, 2.6vh, 30px) clamp(16px, 2.2vw, 28px);
+  border: 1px solid rgba(243, 237, 227, 0.16);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+
+.work-card::after {
+  /* 角落的圆形装饰，暗示作品里的圆形元素 */
+  content: "";
+  position: absolute;
+  right: -42px;
+  bottom: -42px;
+  width: 118px;
+  height: 118px;
+  border-radius: 50%;
+  background: var(--coral);
+  opacity: 0.14;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.work-card:nth-child(2)::after {
+  background: var(--blue);
+}
+
+.work-card:hover {
+  border-color: var(--coral);
+  transform: translateY(-4px);
+  background: rgba(228, 87, 46, 0.06);
+}
+
+.work-card:nth-child(2):hover {
+  border-color: var(--blue);
+  background: rgba(61, 126, 166, 0.08);
+}
+
+.work-card:hover::after {
+  opacity: 0.22;
+  transform: scale(1.08);
+}
+
+.work-no {
+  font-size: clamp(10px, 0.9vw, 12px);
+  letter-spacing: 0.22em;
+  color: var(--coral);
+}
+
+.work-card:nth-child(2) .work-no { color: var(--blue); }
+
+.work-card h2 {
+  margin: 0;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 600;
+}
+
+.work-desc {
+  margin: 0;
+  font-size: clamp(12px, 1vw, 13.5px);
+  line-height: 1.75;
+  color: rgba(243, 237, 227, 0.62);
+}
+
+.work-meta {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--sand);
+}
+
+.work-enter {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 13px;
+  color: var(--paper);
+  opacity: 0.75;
+}
+
+.work-card:hover .work-enter { opacity: 1; color: var(--coral); }
+.work-card:nth-child(2):hover .work-enter { color: var(--blue); }
+
+.index-footer {
+  margin-top: clamp(16px, 3.4vh, 36px);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(243, 237, 227, 0.34);
+}
+
+/* ---------------- 作品页通用 ---------------- */
+.art-page { background: var(--ink); }
+
+.canvas-stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas { display: block; }   /* 消除 canvas 的基线间隙，避免出现 1~2px 溢出 */
+
+/* 静态页画布与深色页底之间加一圈细描边，保证墨蓝竖带的轮廓可读 */
+.art-page canvas {
+  box-shadow:
+    0 0 0 1px rgba(243, 237, 227, 0.22),
+    0 24px 80px rgba(0, 0, 0, 0.5);
+}
+
+.back-link {
+  position: fixed;
+  top: clamp(12px, 2vh, 24px);
+  left: clamp(12px, 2vw, 28px);
+  z-index: 10;
+  padding: 7px 13px;
+  border: 1px solid rgba(243, 237, 227, 0.22);
+  border-radius: 100px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(243, 237, 227, 0.72);
+  text-decoration: none;
+  background: rgba(14, 27, 42, 0.45);
+  backdrop-filter: blur(4px);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--paper);
+  border-color: var(--coral);
+}
+
+/* 动态页的按键提示 */
+.hud {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(12px, 2.4vh, 26px);
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+  padding: 9px 18px;
+  border-radius: 100px;
+  border: 1px solid rgba(243, 237, 227, 0.14);
+  background: rgba(14, 27, 42, 0.42);
+  backdrop-filter: blur(6px);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: rgba(243, 237, 227, 0.6);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.hud b {
+  font-weight: 600;
+  color: var(--sand);
+  margin-right: 4px;
+}
+
+/* ---------------- 小屏适配 ---------------- */
+@media (max-width: 760px) {
+  .work-grid { grid-template-columns: 1fr; }
+  .work-card::after { display: none; }
+  .hud { gap: 6px 12px; font-size: 10.5px; padding: 8px 14px; }
+}
+
+@media (max-height: 620px) {
+  .intro { display: none; }
+  .index-footer { display: none; }
+}
