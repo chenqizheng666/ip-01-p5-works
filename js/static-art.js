@@ -36,10 +36,12 @@ function windowResized() {
 
 /* 让 1200×800 的画布等比缩放到可视区域，四周留一点呼吸边距 */
 function fitCanvasToStage() {
-  const stage = document.getElementById('stage');
+  // 注意：不能量 #stage 本身——它的尺寸是被画布撑出来的，
+  // 量它会陷入"自己量自己"的死循环；要量铺满窗口的外层容器
+  const stageArea = document.querySelector('.canvas-stage');
   const scale = Math.min(
-    stage.clientWidth / ART_WIDTH,
-    stage.clientHeight / ART_HEIGHT
+    stageArea.clientWidth / ART_WIDTH,
+    stageArea.clientHeight / ART_HEIGHT
   ) * 0.92;
 
   const canvasElement = document.querySelector('canvas');
